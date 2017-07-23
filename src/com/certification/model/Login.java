@@ -12,7 +12,7 @@ public class Login {
 	private String username;
 	private String password;
 	private String role;
-	private String base;
+	private String salt;
 	private String status;
 	public String getUsername() {
 		return username;
@@ -32,11 +32,11 @@ public class Login {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public String getBase() {
-		return base;
+	public String getSalt() {
+		return salt;
 	}
-	public void setBase(String base) {
-		this.base = base;
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 	public String getStatus() {
 		return status;
@@ -46,22 +46,28 @@ public class Login {
 	}
 	@Override
 	public String toString() {
-		return "Login [username=" + username + ", password=" + password + ", role=" + role + ", base=" + base
+		return "Login [username=" + username + ", password=" + password + ", role=" + role + ", base=" + salt
 				+ ", status=" + status + "]";
 	}
 	/**
 	 * @param username
 	 * @param password
 	 * @param role
-	 * @param base
+	 * @param salt
 	 * @param status
 	 */
 	public Login(Login login) {
 		this.username = login.username;
 		this.password = login.password;
 		this.role = login.role;
-		this.base = login.base;
+		this.salt = login.salt;
 		this.status = login.status;
+	}
+	/**
+	 * 
+	 */
+	public Login() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	

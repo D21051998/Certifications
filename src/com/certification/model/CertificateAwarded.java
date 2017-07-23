@@ -3,13 +3,12 @@ package com.certification.model;
  * @author Deepanshu Jain
  *
  */
-public class Certificate {
+public class CertificateAwarded {
 
 	
-	//CertId = timestamp
 	private String certiId;
 	private String eventId;
-	private String studentId;
+	private String participantId;
 	private String rank;
 	private boolean isDownloadable;
 	public String getCertiId() {
@@ -25,10 +24,10 @@ public class Certificate {
 		this.eventId = eventId;
 	}
 	public String getStudentId() {
-		return studentId;
+		return participantId;
 	}
 	public void setStudentId(String studentId) {
-		this.studentId = studentId;
+		this.participantId = studentId;
 	}
 	public String getRank() {
 		return rank;
@@ -44,22 +43,9 @@ public class Certificate {
 	}
 	@Override
 	public String toString() {
-		return "Certificate [certiId=" + certiId + ", eventId=" + eventId + ", studentId=" + studentId + ", rank="
+		return "Certificate [certiId=" + certiId + ", eventId=" + eventId + ", studentId=" + participantId + ", rank="
 				+ rank + ", isDownloadable=" + isDownloadable + "]";
 	}
-	/**
-	 * @param certiId
-	 * @param eventId
-	 * @param studentId
-	 * @param rank
-	 * @param isDownloadable
-	 */
-	public Certificate(Certificate certificate) {
-		this.certiId = certificate.certiId;
-		this.eventId = certificate.eventId;
-		this.studentId = certificate.studentId;
-		this.rank = certificate.rank;
-		this.isDownloadable = certificate.isDownloadable;
-	}
+
 	
 }

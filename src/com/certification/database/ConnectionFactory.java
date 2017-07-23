@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class ConnectionFactory {
 
     private static ConnectionFactory instance = new ConnectionFactory();
-    private final static String URL = "jdbc:mysql://localhost/publication_module";
+    private final static String URL = "jdbc:mysql://localhost/certification_module";
     private final static String USER = "root";
     private final static String PASSWORD = "root";
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
@@ -45,7 +45,6 @@ public class ConnectionFactory {
             if(null!=c){
                 c.close();
                 c=null;
-                //System.out.println("CONNECTION CLOSED");
             }
         }
         catch(SQLException e){
