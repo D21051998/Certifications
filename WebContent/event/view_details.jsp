@@ -121,11 +121,12 @@ div.transbox {
 
 
 	<jsp:useBean id="eventDao" class="com.certification.impl.EventIMPL"></jsp:useBean>
+	<jsp:useBean id="participantDao" class="com.certification.impl.ParticipantIMPL"></jsp:useBean>
 	<jsp:useBean id="layoutDao" class="com.certification.impl.CertificateIMPL" scope="page"></jsp:useBean>
 	
-	<c:set scope="page" var="facID" value="F0002"></c:set>
+	<c:set scope="page" var="facID" value="F0001"></c:set>
 	<%
-		request.setAttribute("events", eventDao.getAllEvents());
+		request.setAttribute("events", layoutDao.getAwardedCertificates(""));
 	%>
 	<div class="container content">
 		<div class="row">

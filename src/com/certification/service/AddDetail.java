@@ -82,6 +82,16 @@ public class AddDetail extends HttpServlet {
 				List<FileItem> multiparts = upload.parseRequest(request);
 				List<List<String>> sheetData = new ArrayList<>();
 				List<Participant> participants = new ArrayList<>();
+				List<String[]> toBeAwardeds = new ArrayList<>();
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				layout.setCertificateId(timestamp.toString());
+				for(FileItem item:multiparts){
+					if (item.isFormField()) {
+						if ("eventId".equals(item.getFieldName())) {
+							layout.setEventId(item.getString());
+						}
+					}
+				}
 				for (FileItem item : multiparts) {
 					if (!item.isFormField()) {
 						if (item.getFieldName().equals("certificateLayout")) {
@@ -115,12 +125,12 @@ public class AddDetail extends HttpServlet {
 								}
 								sheetData.add(cellData);
 							}
-							for(List<String> list: sheetData){
+							for (List<String> list : sheetData) {
 								System.out.println(list);
 							}
-							if(!sheetData.isEmpty()){
-								
-								for(List<String> list1: sheetData){
+							if (!sheetData.isEmpty()) {
+								sheetData.remove(0);
+								for (List<String> list1 : sheetData) {
 									Participant participant = new Participant();
 									participant.setParticipantId(list1.get(0));
 									participant.setName(list1.get(1));
@@ -128,22 +138,23 @@ public class AddDetail extends HttpServlet {
 									participant.setEmail(list1.get(3));
 									participant.setContact(list1.get(4));
 									participants.add(participant);
+									toBeAwardeds.add(new String[]{layout.getCertificateId(),layout.getEventId(),participant.getParticipantId(),null,});
 								}
-								Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-								layout.setCertificateId(timestamp.toString());
+								
 								layout.setProperty1abscissa(Integer.toString(100));
 								layout.setProperty1ordinate(Integer.toString(100));
 							}
 						}
 					}
+					
 				}
-				if(null==layout || participants.isEmpty()){
+				if (null == layout || participants.isEmpty()) {
 					response.sendRedirect("faculty/manage_events.jsp?layoutsave=failed");
-				}else{
+				} else {
 					partiimpl.saveParticipants(participants);
-					if(certiimpl.saveLayoutDetails(layout)){
+					if (certiimpl.saveLayoutDetails(layout)) {
 						response.sendRedirect("faculty/manage_events.jsp?layoutsave=success");
-					}else{
+					} else {
 						response.sendRedirect("faculty/manage_events.jsp?layoutsave=failed");
 					}
 				}

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -138,7 +140,7 @@ div.transbox {
 	%>
 	<div class="container content">
 	<form action="../AddDetail" method="POST" enctype="multipart/form-data"  >
-	<input type="hidden" name="eventId" value="${event.eventId}" >
+	<input type="hidden" name="eventId" value='<c:out value="<%=eventID%>"></c:out>'>
 		<div class="row">
 		<div class="col-md-12 transbox">
 		<h3>Add additional details</h3>
@@ -149,7 +151,7 @@ div.transbox {
 			</tr>
 			<tr>
 				<td>Certificate Template</td>
-				<td><input type='file' onchange="readURL(this);" name="certificateLay" /></td>
+				<td><input type='file' onchange="readURL(this);" name="certificateLayout" /></td>
 				<td><img id="blah" onerror="this.style.display='none'" src="#"
 					width="200px" height="300px" alt="your image" /></td>
 			</tr>
