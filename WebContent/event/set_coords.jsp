@@ -10,6 +10,16 @@
 <link rel="stylesheet" href="../resources/style/bootstrap.css">
 <link rel="stylesheet" href="../resources/style/font-lato.css">
 <link rel="stylesheet" href="../resources/style/font-montserrat.css">
+<link class="jsbin"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<script class="jsbin"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin"
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 <style>
 body {
 	background-color: #fcfcfc;
@@ -23,6 +33,7 @@ td {
 	font-variant: normal;
 	font-weight: bold;
 	line-height: 23px;
+	padding: 10px;
 }
 
 th {
@@ -116,63 +127,23 @@ div.transbox {
 	box-shadow: 0 0 5px gray;
 }
 </style>
+
 </head>
 <body>
 
-
 	<jsp:useBean id="eventDao" class="com.certification.impl.EventIMPL"></jsp:useBean>
-	<jsp:useBean id="layoutDao" class="com.certification.impl.CertificateIMPL" scope="page"></jsp:useBean>
-	
-	<c:set scope="page" var="facID" value="F0001"></c:set>
+
+
 	<%
-		request.setAttribute("events", eventDao.getAllEvents());
+		String eventID = request.getParameter("eventID");
+		request.setAttribute("event", eventDao.getEvent(eventID));
+		out.println(request.getParameter("eventID"));
 	%>
-	<div class="container content">
-		<div class="row">
-			<div class="col-md-12 transbox">
-			<h3>Logged in as: Faculty(${facID})</h3>
-	<h3>All Events</h3>
-	<table class="table">
-		<tr>
-			<th>Event Name</th>
-			<th>Event In-charge</th>
-			<th>Event Started On</th>
-			<th>Event Duration<br>(no of days)
-			</th>
-			<th>Event Ended on</th>
-			<th>Event Scrap</th>
-			<th>Add Details</th>
-			<th>View Details<th>
-		</tr>
-		<c:forEach items="${events}" var="event">
-			<c:if test="${facID eq event.facultyIncharge}">
-				<tr>
-					<td>${event.eventName}</td>
-					<td>${event.facultyIncharge}</td>
-					<td>${event.dateStarted}</td>
-					<td>${event.noDays}</td>
-					<td><c:if test="${empty event.dateEnded}">Not ended yet</c:if>
-						<c:if test="${not empty event.dateEnded}">${event.dateEnded}</c:if>
-					</td>
-					<td>${event.scrap}</td>
-					<td>
-					<c:if test="${layoutDao.checkForCertificate(event.eventId)}"><a class="btn btn-info" href="../event/set_coords.jsp?eventID=${event.eventId}">Set Coordinates</a></c:if>
-					<c:if test="${not layoutDao.checkForCertificate(event.eventId)}"><a class="btn btn-info" href="../event/add_details.jsp?eventID=${event.eventId}">Add</a></c:if>
-					
-					
-					</td>
-					<td>
-					<c:if test="${layoutDao.checkForCertificate(event.eventId)}"><a class="btn btn-info" href="../event/view_details.jsp?eventID=${event.eventId}">View</a></c:if>
-					<c:if test="${not layoutDao.checkForCertificate(event.eventId)}"><a href="" class="btn btn-info disabled">View</a></c:if>
-					
-					</td>
-				</tr>
-			</c:if>
-		</c:forEach>
-	</table>
-</div>
-</div>
-</div>
+	<div class="container">
+	
+	
+	<img  src="${pageContext.request.contextPath}/images/0da45a4d300debb4892d48e7eabd0c3a.jpg" alt="Image">
+	</div>
 
 </body>
 </html>
