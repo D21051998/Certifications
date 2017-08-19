@@ -21,7 +21,7 @@ import com.certification.model.Participant;
 public class ParticipantIMPL implements StudentDAO {
 
 	
-	public List<CertificateAwarded> getAwarededList(String id){
+	public List<CertificateAwarded> getAwardedList(String id){
 		List<CertificateAwarded> list = new ArrayList<CertificateAwarded>();
 		Connection connection = null;
 		PreparedStatement statement = null;

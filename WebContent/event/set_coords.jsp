@@ -20,113 +20,6 @@
 <!--[if IE]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<style>
-body {
-	background-color: #fcfcfc;
-}
-
-td {
-	vertical-align: middle;
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-	font-size: 15px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 23px;
-	padding: 10px;
-}
-
-th {
-	text-align: center;
-	vertical-align: middle;
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-	font-size: 17px;
-	font-style: italic;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 23px;
-}
-
-h3 {
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-	font-size: 20px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: bolder;
-	line-height: 23px;
-}
-
-table {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	word-wrap: break-word;
-}
-
-a {
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-	font-size: 17px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 23px;
-}
-
-.container {
-	width: 100%;
-}
-
-li.borderless {
-	border-bottom: 0 none;
-	border-top: none;
-}
-
-ul {
-	list-style: none;
-}
-
-.content:before {
-	content: "";
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: -1;
-	display: block;
-	background-image: url('../resources/images/DSCN7348.jpg');
-	-webkit-filter: brightness(0.8);
-	filter: brightness(0.8);
-	background-size: cover;
-	width: 100%;
-	height: 100%;
-	-webkit-filter: blur(10px);
-	-moz-filter: blur(10px);
-	-o-filter: blur(10px);
-	-ms-filter: blur(10px);
-	filter: blur(10px);
-}
-
-.content {
-	overflow: visible;
-	position: relative;
-}
-
-div.transbox {
-	margin: 30px;
-	background-color: #ffffff;
-	border: 0px solid;
-	background-color: rgba(255, 255, 255, 0.6);
-	width: auto;
-	/* For IE8 and earlier */
-}
-
-.content p {
-	margin: 15px;
-	background: rgba(255, 255, 255, 0.3);
-	padding: 5px;
-	box-shadow: 0 0 5px gray;
-}
-</style>
 
 </head>
 <body>
@@ -137,13 +30,52 @@ div.transbox {
 	<%
 		String eventID = request.getParameter("eventID");
 		request.setAttribute("event", eventDao.getEvent(eventID));
-		out.println(request.getParameter("eventID"));
+		//out.println(request.getParameter("eventID"));
 	%>
-	<div class="container">
-	
-	
-	<img  src="${pageContext.request.contextPath}/images/0da45a4d300debb4892d48e7eabd0c3a.jpg" alt="Image">
-	</div>
+	<div>
 
+
+		<img onclick="showCoords(event)"  style="width:auto;height:auto;max-width: 100%;"
+			src="${pageContext.request.contextPath}/images/0da45a4d300debb4892d48e7eabd0c3a.jpg"
+			alt="Image">	
+
+		<form>
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td><input type="text" name="1" id="1" value=""><br></td>
+				</tr>
+				<tr>
+					<td>Data Field:</td>
+					<td><input type="text" name="2" id="2"><br></td>
+				</tr>
+				<tr>
+					<td>Data Field:</td>
+					<td><input type="text" name="3" id="3"><br></td>
+				</tr>
+				<tr>
+					<td>Reset</td>
+					<td><button type="reset" onclick="resetCount()">Reset</button>
+					</td>
+				</tr>
+				 
+			</table>
+		</form>
+	</div>
+	<script>
+		var count = 1;
+		function showCoords(event) {
+			var evt = event ? event : window.event;
+			var x = evt.pageX;
+			var y = evt.pageY;
+			var coords = (x) + ", " + y;
+			console.log(count);
+			document.getElementById(count).value = coords;
+			count = parseInt(count, 10) + 1;
+		}
+		function resetCount() {
+			count = 1;
+		}
+	</script>
 </body>
 </html>
