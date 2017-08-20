@@ -40,8 +40,94 @@ public class ParticipantIMPL implements StudentDAO {
 	
 		
 		return list;
+	}
+	
+	/**
+	 * 
+	 */
+	public List<CertificateAwarded> getAllCertificatesByParticipantID(String id){
+		List<CertificateAwarded> awardeds = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement("select * from certificateAwarded where participantId=?");
+			statement.setString(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				CertificateAwarded awarded = new CertificateAwarded();
+				awarded.setCertiId(id);
+				awarded.setStudentId(rs.getString("participantId"));
+				awarded.setEventId(rs.getString("eventID"));
+				awarded.setRank(rs.getString("rank"));
+				awarded.setDownloadable(rs.getInt("isDownloadable") == 1 ? true : false);
+				awardeds.add(awarded);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(connection);
+		}
+		return awardeds;
 		
 	}
+	
+	public  List<Participant> getAllParticipant() {
+		// TODO Auto-generated method stub
+		List<Participant> list = new ArrayList<Participant>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement("select * from participants");
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()){
+				//participantId, name, email, contact, institution
+				Participant participant = new Participant();
+				participant.setParticipantId(rs.getString("participantId"));
+				participant.setName(rs.getString("name"));
+				participant.setContact(rs.getString("contact"));
+				participant.setEmail(rs.getString("email"));
+				participant.setInstitution(rs.getString("institution"));
+				list.add(participant);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(connection);
+		}
+		return list;
+	}
+	
+	public List<CertificateAwarded> getAwardedListByEventID(String id){
+		List<CertificateAwarded> list = new ArrayList<CertificateAwarded>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement("select * from certificateAwarded where eventID=?");
+			statement.setString(1, id);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()){
+				//certificateId, eventId, participantId, rank, isDownloadable
+				CertificateAwarded awarded = new CertificateAwarded();
+				awarded.setCertiId(rs.getString("certificateId"));
+				awarded.setDownloadable(rs.getInt("isDownloadable")==1?true:false);
+				awarded.setEventId(id);
+				awarded.setRank(rs.getString("rank"));
+				awarded.setStudentId(rs.getString("participantId"));
+				list.add(awarded);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(connection);
+		}
+		return list;
+	}
+	
+	
+	
 	
 	public void saveAwardedList(List<String[]> list){
 		
@@ -91,6 +177,24 @@ public class ParticipantIMPL implements StudentDAO {
 		}
 		return false;
 
+	}
+	
+	public boolean ifExistsParticipant(String id){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement("select * from participants where participantId==?");
+			statement.setString(1, id);
+			if(statement.executeQuery().next()){
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(connection);
+		}
+		return false;
 	}
 
 	public void saveParticipants(List<Participant> participants) {

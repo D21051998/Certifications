@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Student Home</title>
 <link rel="stylesheet" href="../resources/style/bootstrap.css">
 <link rel="stylesheet" href="../resources/style/font-lato.css">
 <link rel="stylesheet" href="../resources/style/font-montserrat.css">
@@ -26,6 +26,10 @@ body {
 }
 
 td {
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	text-align: left !important;
 	vertical-align: middle;
 	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	font-size: 15px;
@@ -33,11 +37,11 @@ td {
 	font-variant: normal;
 	font-weight: bold;
 	line-height: 23px;
-	padding: 10px;
+	text-align: center;
 }
 
 th {
-	text-align: center;
+	text-align: left;
 	vertical-align: middle;
 	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	font-size: 17px;
@@ -127,70 +131,80 @@ div.transbox {
 	box-shadow: 0 0 5px gray;
 }
 </style>
-
 </head>
 <body>
+	<jsp:useBean id="partiImpl" scope="page"
+		class="com.certification.impl.ParticipantIMPL"></jsp:useBean>
+	<jsp:useBean id="certiImpl" scope="page"
+		class="com.certification.impl.CertificateIMPL"></jsp:useBean>
+	<jsp:useBean id="eventImpl" scope="page"
+		class="com.certification.impl.EventIMPL"></jsp:useBean>
+	<c:set scope="page" var="participantID" value="i1"></c:set>
+	<c:set scope="page" var="allParticipants"
+		value="${partiImpl.getAllParticipant()}"></c:set>
 
-	<jsp:useBean id="eventDao" class="com.certification.impl.EventIMPL"></jsp:useBean>
-
-
-	<%
-		String eventID = request.getParameter("eventID");
-		request.setAttribute("event", eventDao.getEvent(eventID));
-	%>
+	<c:forEach items="${allParticipants}" var="participant">
+		<c:if test="${participant.participantId eq participantID}">
+			<c:set scope="page" var="target" value="${participant}"></c:set>
+		</c:if>
+	</c:forEach>
 	<div class="container content">
-		<form action="../AddDetail" method="POST"
-			enctype="multipart/form-data">
-			<input type="hidden" name="eventId"
-				value='<c:out value="<%=eventID%>"></c:out>'>
-			<div class="row">
-				<div class="col-md-3 transbox">
-					<h3>Add additional details</h3>
-					<table align="left">
-						<tr>
-							<td>Event Name</td>
-							<td>${event.eventName}</td>
-						</tr>
-						<tr>
-							<td>Certificate Template</td>
-							<td><input type='file' onchange="readURL(this);"
-								name="certificateLayout" /></td>
-						</tr>
-						<tr>
-							<td>Participant List</td>
-							<td><input type="file" name="participants"></td>
-						</tr>
-						<tr>
-							<td>
-								<button type="reset" class="btn btn-danger">Reset</button>
-							</td>
-							<td>
-								<button type="submit" class="btn btn-success">Submit</button>
-							</td>
-						</tr>
-					</table>
-					<br>&nbsp;
-				</div>
-				<div>
-					<img id="blah" onerror="this.style.display='none'" src="#"
-						width="200px" height="300px" alt="your image" />
-				</div>
+		<div class="row">
+			<div class="col-md-2 transbox">
+				<h3>Participant Home</h3>
+				<br>
+				<h4>Participant Details:</h4>
+				<table>
+					<tr>
+						<td>Name</td>
+						<td>${target.name}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>${target.email}</td>
+					</tr>
+					<tr>
+						<td>Contact</td>
+						<td>${target.contact}</td>
+					</tr>
+					<tr>
+						<td>Institution</td>
+						<td>${target.institution}</td>
+					</tr>
+				</table>
 			</div>
-		</form>
+			<div class="col-md-10 transbox">
+				<h4>Certificates Details:</h4>
+				<table>
+					<tr>
+						<th>Event Name</th>
+						<th>Rank</th>
+						<th>Download</th>
+					</tr>
+					<c:forEach var="targetCertificate"
+						items="${partiImpl.getAllCertificatesByParticipantID(target.participantId)}">
+						<tr>
+							<td>${eventImpl.getEvent(targetCertificate.eventId).eventName}</td>
+							<td><c:if test="${empty targetCertificate.rank}">
+									<c:out value="Not Mentioned"></c:out>
+								</c:if> <c:if test="${not empty targetCertificate.rank}">
+									<c:out value="${targetCertificate.rank}"></c:out>
+								</c:if></td>
+							<td><c:if test="${targetCertificate.downloadable eq true}">
+									<c:url value="../Download" var="download">
+										<c:param name="eventID" value="${targetCertificate.eventId}"></c:param>
+										<c:param name="participantID" value="${target.participantId}"></c:param>
+									</c:url>
+									<a target="_blank" class="btn btn-info" href="${download}">Download</a>
+								</c:if> <c:if test="${not targetCertificate.downloadable eq true}">
+									<a class="btn btn-info">Download</a>
+								</c:if></td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
 	</div>
-	<script type="text/javascript">
-		function readURL(input) {
-			if (input.files && input.files[0]) {
-				var reader = new FileReader();
-				document.getElementById('blah').style.display = 'block';
-				reader.onload = function(e) {
-					$('#blah').attr('src', e.target.result).width(1280).height(
-							905);
-				};
 
-				reader.readAsDataURL(input.files[0]);
-			}
-		}
-	</script>
 </body>
 </html>

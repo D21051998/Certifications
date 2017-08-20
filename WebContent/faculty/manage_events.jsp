@@ -142,7 +142,9 @@ div.transbox {
 			<th>Event Ended on</th>
 			<th>Event Scrap</th>
 			<th>Add Details</th>
-			<th>View Details<th>
+			<th>View Details</th>
+			<th>View Participants</th>
+			<th>Toggle Downloads<th>
 		</tr>
 		<c:forEach items="${events}" var="event">
 			<c:if test="${facID eq event.facultyIncharge}">
@@ -156,7 +158,8 @@ div.transbox {
 					</td>
 					<td>${event.scrap}</td>
 					<td>
-					<c:if test="${layoutDao.checkForCertificate(event.eventId)}"><a class="btn btn-info" href="../event/set_coords.jsp?eventID=${event.eventId}">Set Coordinates</a></c:if>
+					<c:if test="${layoutDao.checkForCertificate(event.eventId)}">
+					 <a class="btn btn-info" href="../event/set_coords.jsp?eventID=${event.eventId}">Set Coordinates</a></c:if>
 					<c:if test="${not layoutDao.checkForCertificate(event.eventId)}"><a class="btn btn-info" href="../event/add_details.jsp?eventID=${event.eventId}">Add</a></c:if>
 					
 					
@@ -164,8 +167,9 @@ div.transbox {
 					<td>
 					<c:if test="${layoutDao.checkForCertificate(event.eventId)}"><a class="btn btn-info" href="../event/view_details.jsp?eventID=${event.eventId}">View</a></c:if>
 					<c:if test="${not layoutDao.checkForCertificate(event.eventId)}"><a href="" class="btn btn-info disabled">View</a></c:if>
-					
 					</td>
+					<td><a class="btn btn-info" href="../event/view_participants.jsp?eventID=${event.eventId}">View</a></td>
+					<td><a class="btn btn-info" href="../event/toggle_download.jsp?eventID=${event.eventId}">Toggle</a></td>
 				</tr>
 			</c:if>
 		</c:forEach>

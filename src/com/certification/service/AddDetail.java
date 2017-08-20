@@ -138,7 +138,7 @@ public class AddDetail extends HttpServlet {
 									participant.setEmail(list1.get(3));
 									participant.setContact(list1.get(4));
 									participants.add(participant);
-									toBeAwardeds.add(new String[]{layout.getCertificateId(),layout.getEventId(),participant.getParticipantId(),null,});
+									toBeAwardeds.add(new String[]{layout.getCertificateId(),layout.getEventId(),participant.getParticipantId(),null,"0"});
 								}
 								
 								layout.setProperty1abscissa(Integer.toString(100));
@@ -153,6 +153,7 @@ public class AddDetail extends HttpServlet {
 				} else {
 					partiimpl.saveParticipants(participants);
 					if (certiimpl.saveLayoutDetails(layout)) {
+						partiimpl.saveAwardedList(toBeAwardeds);
 						response.sendRedirect("faculty/manage_events.jsp?layoutsave=success");
 					} else {
 						response.sendRedirect("faculty/manage_events.jsp?layoutsave=failed");

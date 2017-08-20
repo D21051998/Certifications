@@ -193,6 +193,12 @@ user-select: none;}
 					<a  href="faculty/home.jsp">Faculty</a>
 					</td>
 					</tr>
+					<tr>
+					<td></td>
+					<td></td>
+					<td>
+					<a  href="participants/home.jsp">Participant</a></td>
+					</tr>
 						<tr>
 							<td><label for="username">Username</label></td>
 							<td>&nbsp;</td>

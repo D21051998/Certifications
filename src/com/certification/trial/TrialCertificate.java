@@ -26,7 +26,7 @@ public class TrialCertificate {
 		Document document = new Document(sheet_margin);
 		PdfWriter write = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\Deepanshu Jain\\Desktop\\Certificate Sample.pdf"));
 		Image img = Image.getInstance("C:\\Users\\Deepanshu Jain\\Documents\\PP Webpages Trial\\Certificate Sample pre.jpg");
-		img.rotate();
+		//img.rotate();
 		img.scaleAbsolute(1280, 905);
 		img.setAbsolutePosition(0, 0);
 		document.open();

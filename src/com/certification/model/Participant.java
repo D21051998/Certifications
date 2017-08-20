@@ -22,7 +22,14 @@ public class Participant {
 	}
 
 	public void setParticipantId(String participantId) {
+		
 		this.participantId = participantId;
+	}
+
+	@Override
+	public String toString() {
+		return "Participant [participantId=" + participantId + ", name=" + name + ", email=" + email + ", contact="
+				+ contact + ", institution=" + institution + "]";
 	}
 
 	public String getName() {

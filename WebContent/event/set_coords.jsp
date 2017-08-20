@@ -25,6 +25,7 @@
 <body>
 
 	<jsp:useBean id="eventDao" class="com.certification.impl.EventIMPL"></jsp:useBean>
+	<jsp:useBean id="certiDao" class="com.certification.impl.CertificateIMPL"></jsp:useBean>
 
 
 	<%
@@ -35,28 +36,30 @@
 	<div>
 
 
-		<img onclick="showCoords(event)"  style="width:auto;height:auto;max-width: 100%;"
-			src="${pageContext.request.contextPath}/images/0da45a4d300debb4892d48e7eabd0c3a.jpg"
+		<img onclick="showCoords(event)"  style="width:1280px;height:905px;"
+			src="${pageContext.request.contextPath}/images/${certiDao.getImageNameByEventID(param.eventID)}"
 			alt="Image">	
 
-		<form>
+		<form method="get" action="save_coords.jsp"> 
+		<input type="hidden" name="eventID" value='<c:out value="<%=request.getParameter(\"eventID\")%>"/>' > 
 			<table>
 				<tr>
 					<td>Name:</td>
-					<td><input type="text" name="1" id="1" value=""><br></td>
+					<td><input type="text" name="1" id="1" value="0.0"><br></td>
 				</tr>
 				<tr>
-					<td>Data Field:</td>
-					<td><input type="text" name="2" id="2"><br></td>
+					<td>Data Field 1:</td>
+					<td><input type="text" name="2" id="2" value="0.0"><br></td>
 				</tr>
 				<tr>
-					<td>Data Field:</td>
-					<td><input type="text" name="3" id="3"><br></td>
+					<td>Data Field 2:</td>
+					<td><input type="text" name="3" id="3" value="0.0"><br></td>
 				</tr>
 				<tr>
-					<td>Reset</td>
+					
 					<td><button type="reset" onclick="resetCount()">Reset</button>
 					</td>
+					<td><button type="submit"> Submit</button></td>
 				</tr>
 				 
 			</table>
@@ -68,7 +71,7 @@
 			var evt = event ? event : window.event;
 			var x = evt.pageX;
 			var y = evt.pageY;
-			var coords = (x) + ", " + y;
+			var coords = (x) + "." + y;
 			console.log(count);
 			document.getElementById(count).value = coords;
 			count = parseInt(count, 10) + 1;

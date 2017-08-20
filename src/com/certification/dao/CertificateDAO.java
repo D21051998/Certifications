@@ -7,6 +7,6 @@ package com.certification.dao;
 
 public interface CertificateDAO {
 
-	
+	public boolean updateCoordinates(String[] str, String eventID);
 	
 }

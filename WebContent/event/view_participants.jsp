@@ -16,8 +16,10 @@ body {
 	background-color: #fcfcfc;
 }
 
-td {
+td {padding-left:20px;
+padding-bottom:20px;
 	vertical-align: middle;
+	text-align: middle;
 	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	font-size: 15px;
 	font-style: normal;
@@ -119,8 +121,6 @@ div.transbox {
 </style>
 </head>
 <body>
-
-
 	<jsp:useBean id="eventDao" class="com.certification.impl.EventIMPL"></jsp:useBean>
 	<jsp:useBean id="participantDao"
 		class="com.certification.impl.ParticipantIMPL"></jsp:useBean>
@@ -131,75 +131,48 @@ div.transbox {
 	<c:set scope="page" var="data"
 		value="${layoutDao.getCertificateDataByEventID(param.eventID)}"></c:set>
 
-
+	<c:set scope="page"
+		value="${participantDao.getAwardedListByEventID(param.eventID)}"
+		var="list"></c:set>
+	<c:set scope="page" value="${participantDao.getAllParticipant()}"
+		var="allParticipants"></c:set>
 
 	<div class="container content">
 		<div class="row">
-
 			<div class="col-md-3 transbox">
 				<h3>Logged in as: Faculty(${facID})</h3>
-				<h3>View Details</h3>
-
-				<table class="table">
+				<h3>View Participants</h3>
+				<table>
 					<tr>
-						<th>Event Name</th>
-						<td>${data.eventName}</td>
+						<td>Participant ID</td>
+						<td>Participant Name</td>
+						<td>Participant Institution</td>
+						<td>Rank</td>
+						<td>isDownloadable</td>
 					</tr>
-					<tr>
-						<th>Event In-charge</th>
-						<td>${data.facultyIncharge}</td>
-					</tr>
-					<tr>
-						<th>Event Started On</th>
-						<td>${data.dateStarted}</td>
-					</tr>
-					<tr>
-
-						<th>Event Duration<br>(no of days)
-						</th>
-						<td>${data.noDays}</td>
-					</tr>
-					<tr>
-						<th>Event Ended on</th>
-						<td><c:if test="${empty data.dateEnded}">Not ended yet</c:if>
-							<c:if test="${not empty data.dateEnded}">${data.event.dateEnded}</c:if>
-						</td>
-					</tr>
-					<tr>
-						<th>Event Scrap</th>
-						<td><c:if test="${data.scrap}">Yes</c:if> <c:if
-								test="${not data.scrap}">No</c:if></td>
-					</tr>
-					<tr>
-						<th>Certificate Image Name</th>
-						<td>${data.certificateImageLocation}</td>
-					</tr>
-					<tr>
-						<th>Property 1 Coordinates:</th>
-						<td>(${data.property1abscissa}, ${data.property1ordinate})</td>
-					</tr>
-					<tr>
-						<td>
-							<button class="btn btn-default" onclick="goBack()">&laquo;
-								Go Back</button>
-						</td>
-						<td></td>
-					</tr>
+					<c:forEach var="awarded" items="${list}">
+						<tr>
+							<td><c:out value="${awarded.studentId}"></c:out></td>
+							<c:forEach var="participant" items="${allParticipants}">
+								<c:if test="${awarded.studentId eq participant.participantId}">
+									<td><c:out value="${participant.name}"></c:out></td>
+									<td><c:out value="${participant.institution}"></c:out></td>
+								</c:if>
+							</c:forEach>
+							<td><c:if test="${empty awarded.rank}">
+									<c:out value="Not Mentioned"></c:out>
+								</c:if>
+								<c:if test="${not empty awarded.rank}">
+									<c:out value="${awarded.rank}"></c:out>	
+								</c:if>
+								
+							</td>
+							<td><c:out value="${awarded.downloadable}"></c:out></td>
+						</tr>
+					</c:forEach>
 				</table>
-			</div>
-			<div class="col-md-9">
-				<img style="width: 1280px; height: 905px;"
-					src="${pageContext.request.contextPath}/images/${data.certificateImageLocation}"
-					alt="Image">
-
 			</div>
 		</div>
 	</div>
-
-	<script>
-		function goBack() {
-			window.history.back();
-		}
-	</script>
 </body>
 </html>
